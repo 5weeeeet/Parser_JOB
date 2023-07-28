@@ -2,6 +2,9 @@ from api import HeadHunterAPI, SuperjobAPI
 import pandas as pd
 import os
 
+from class_vacancy import Vacancy
+
+
 def get_result_choise_platform(num: int, user_keyword: str):
     """
     выдает откорректированный под наш формат список вакансий,
@@ -29,13 +32,24 @@ def get_result_choise_platform(num: int, user_keyword: str):
         correct_vacancies_hh = api_hh.edit_list_get_vacancies(vacancies_hh)
         correct_vacancies_sj = api_sj.edit_list_get_vacancies(vacancies_sj)
         correct_vacancies = correct_vacancies_hh + correct_vacancies_sj
-        return correct_vacancies
+        list_instances_vacancies = []
+        for i in correct_vacancies:
+            vacancy = Vacancy(i)
+            list_instances_vacancies.append(vacancy)
+
+        return list_instances_vacancies
+
 
 def save_excel(list_vac):
+    """ Сохраняет полученные вакансии в формате Excel"""
     user_answer = input("Сохранить вакансии в формате *.xlsx? ДА/НЕТ\n")
     if user_answer.upper() == 'YES' or user_answer.upper() == 'ДА':
-        file_to_excel = pd.DataFrame.from_dict(list_vac)
-        path = os.path.join('Parser_JOB', 'list_vac.xlsx')
+        data_list = []
+        for i in list_vac:
+            dict_i = i.__dict__
+            data_list.append(dict_i)
+        file_to_excel = pd.DataFrame.from_dict(data_list)
+        path = os.path.join('data', 'list_vac.xlsx')
         file_to_excel.to_excel(path)
         print(f'Файл {path} сохранен\n')
     else:
