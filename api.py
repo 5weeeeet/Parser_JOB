@@ -49,7 +49,7 @@ class ParentAPI(RequestsAPI):
         return json_obj
 
     def print_info(self, vacancy_list):
-        """develop-метод, для отображения инфы по запросу"""
+        """Develop-метод, для отображения инфы по запросу"""
         if self.key_with_vacancies in vacancy_list:
             for i in vacancy_list[self.key_with_vacancies]:
                 print(i)
