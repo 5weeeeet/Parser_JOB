@@ -1,6 +1,5 @@
 import json
 import os
-from operator import itemgetter
 from class_vacancy import Vacancy
 
 from abc import ABC, abstractmethod
@@ -8,14 +7,14 @@ from abc import ABC, abstractmethod
 
 class JSON_abc(ABC):
     @abstractmethod
-    def add_vacancy(self, args, *kwargs):
+    def add_vacancy(self, *args, **kwargs):
         pass
 
     @abstractmethod
-    def read_vacancies(self, args, *kwargs):
+    def read_vacancies(self, *args, **kwargs):
         pass
 
-class JSONSaver:
+class JSONSaver(JSON_abc):
     def __init__(self):
         self.filename = 'list_vacansies.json'
 
